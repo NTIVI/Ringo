@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 0 40px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(255, 59, 48, 0.5);
+  background: var(--gradient-btn);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.questList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.questCard {
+  background: var(--panel-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.questCard.completed {
+  opacity: 0.6;
+  border-color: rgba(46, 204, 113, 0.3);
+  box-shadow: inset 0 0 20px rgba(46, 204, 113, 0.05);
+}
+
+.questInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.questDesc {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.reward {
+  color: var(--accent-gold);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.actionArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

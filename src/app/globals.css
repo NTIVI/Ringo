@@ -1,0 +1,50 @@
+:root {
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --primary-glow: #ff3b30;
+  --gradient-btn: linear-gradient(135deg, #FF3B30 0%, #FF9500 100%);
+  --accent-gold: #FFD700;
+  --panel-bg: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Accommodate the fixed top bar and bottom nav */
+  padding-top: 72px; /* TopBar height */
+  padding-bottom: 90px; /* BottomNav height */
+}
+
+.main-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}

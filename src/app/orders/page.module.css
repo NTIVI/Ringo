@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 0 40px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-shadow: 0 0 20px rgba(255, 59, 48, 0.5);
+  background: var(--gradient-btn);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.backButton {
+  color: var(--primary-glow);
+  font-weight: bold;
+}
+
+.emptyState {
+  background: var(--panel-bg);
+  padding: 40px 20px;
+  border-radius: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.shopLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--primary-glow);
+  font-weight: bold;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.orderCard {
+  background: var(--panel-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orderTitle {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.orderPrice {
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+
+.orderDate {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.orderStatus {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.pending {
+  background: rgba(255, 149, 0, 0.2);
+  color: #FF9500;
+  border: 1px solid rgba(255, 149, 0, 0.4);
+}
+
+.shipped {
+  background: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+  border: 1px solid rgba(52, 152, 219, 0.4);
+}
+
+.delivered {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+}
