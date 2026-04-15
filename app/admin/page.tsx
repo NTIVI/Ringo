@@ -30,6 +30,24 @@ export default function AdminPage() {
     fetchUsers(password);
   };
 
+  const handleEditBalance = async (userId: string, newBalance: string) => {
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-key': password
+        },
+        body: JSON.stringify({ userId, balance: parseFloat(newBalance) })
+      });
+      if (res.ok) {
+        fetchUsers(password); // refresh
+      }
+    } catch (e) {
+      alert("Failed to update balance");
+    }
+  };
+
   const handleAdjustBalance = async (userId: string, amount: number) => {
     const user = users.find(u => u.id === userId);
     if (!user) return;
