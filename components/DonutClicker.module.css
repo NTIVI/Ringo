@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.staminaWrapper {
+  width: 80%;
+  max-width: 400px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.staminaBarContainer {
+  width: 100%;
+  height: 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.staminaFill {
+  height: 100%;
+  background: var(--stamina-bar);
+  transition: width 0.1s ease-out;
+}
+
+.staminaText {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.donutWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  cursor: pointer;
+  border-radius: 50%;
+  touch-action: manipulation;
+  /* subtle glow behind donut */
+  box-shadow: 0 0 50px rgba(255, 23, 68, 0.4);
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+}
+
+.donutImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+  transition: transform 0.1s;
+}
+
+.donutImage:hover {
+  transform: scale(1.02);
+}

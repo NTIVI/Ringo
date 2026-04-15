@@ -1,0 +1,88 @@
+:root {
+  --bg-gradient: linear-gradient(180deg, #ff1744 0%, #ff4081 100%);
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text-primary: #ffffff;
+  --accent-gold: #FFD700;
+  --stamina-bar: linear-gradient(90deg, #00C853, #64DD17);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: inherit;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.button:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Keyframe Animations */
+@keyframes jump {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.05) translateY(-15px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes floatCoin {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+}
+
+.animate-jump {
+  animation: jump 0.15s ease-out;
+}
+
+.floating-coin {
+  position: absolute;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-gold);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  pointer-events: none;
+  animation: floatCoin 0.8s ease-out forwards;
+}

@@ -1,57 +1,33 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String        @id // Telegram user ID as string
-  firstName    String
-  username     String?
-  coinsBalance Int           @default(1000)
-  streakDays   Int           @default(0)
-  lastLogin    DateTime      @default(now())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  GameHistory  GameHistory[]
-  Order        Order[]
-  Quest        Quest[]
-}
-
-model GameHistory {
-  id         Int      @id @default(autoincrement())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  gameName   String
-  betAmount  Int
-  winAmount  Int
-  timestamp  DateTime @default(now())
-}
-
-model Order {
-  id              Int      @id @default(autoincrement())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  itemTitle       String
-  itemPrice       Int
-  deliveryAddress String
-  status          String   @default("PENDING") // PENDING, SHIPPED, DELIVERED
+  id              String   @id @default(cuid())
+  telegramId      String   @unique
+  name            String
+  balance         Float    @default(0)
+  currentDonutId  Int      @default(1)
+  stamina         Int      @default(100)
+  maxStamina      Int      @default(100)
+  isAdmin         Boolean  @default(false)
+  lastStaminaSync DateTime @default(now())
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  purchases       Purchase[]
 }
 
-model Quest {
-  id        Int     @id @default(autoincrement())
+model Purchase {
+  id        String   @id @default(cuid())
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
-  questType String
-  progress  Int     @default(0)
-  completed Boolean @default(false)
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // 'DONUT', 'UPGRADE', 'COUPON', 'PRIZE'
+  itemId    String   // Identifier for the specific item
+  price     Float
+  createdAt DateTime @default(now())
 }
