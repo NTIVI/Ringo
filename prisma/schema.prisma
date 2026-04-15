@@ -10,12 +10,17 @@ model User {
   id              String   @id @default(cuid())
   telegramId      String   @unique
   name            String
+  username        String?
+  avatarUrl       String?
   balance         Float    @default(0)
+  totalEarned     Float    @default(0)
+  level           Int      @default(1)
   currentDonutId  Int      @default(1)
   stamina         Int      @default(100)
   maxStamina      Int      @default(100)
   isAdmin         Boolean  @default(false)
   lastStaminaSync DateTime @default(now())
+  lastDailyBonus  DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

@@ -10,13 +10,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing sync data' }, { status: 400 });
     }
 
-    // Since it's a simple clicker, we trust the client's total balance.
-    // In a real game, you would validate clicks and time elapsed.
+    // Update sync data including Level calculation
+    const userLookup = await prisma.user.findUnique({ where: { telegramId: String(telegramId) } });
+    if (!userLookup) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+
+    const newLevel = Math.floor(balanceTotal / 50000) + 1;
+
     const user = await prisma.user.update({
       where: { telegramId: String(telegramId) },
       data: {
         balance: balanceTotal,
         stamina: staminaTotal,
+        level: newLevel > userLookup.level ? newLevel : userLookup.level,
         lastStaminaSync: new Date(),
       },
     });

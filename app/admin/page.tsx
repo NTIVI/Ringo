@@ -30,77 +30,76 @@ export default function AdminPage() {
     fetchUsers(password);
   };
 
-  const handleEditBalance = async (userId: string, newBalance: string) => {
-    try {
-      const res = await fetch('/api/admin/users', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-key': password
-        },
-        body: JSON.stringify({ userId, balance: parseFloat(newBalance) })
-      });
-      if (res.ok) {
-        fetchUsers(password); // refresh
-      }
-    } catch (e) {
-      alert("Failed to update balance");
-    }
+  const handleAdjustBalance = async (userId: string, amount: number) => {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    const newBalance = user.balance + amount;
+    handleEditBalance(userId, newBalance.toString());
   };
 
   if (!isAuthenticated) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#333', color: 'white' }}>
-        <form onSubmit={handleLogin} style={{ padding: 20, background: '#222', borderRadius: 10, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <h2>Admin Login</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#0F0F13', color: 'white' }}>
+        <form onSubmit={handleLogin} style={{ padding: 30, background: '#1A1A20', borderRadius: 16, border: '1px solid rgba(255,105,180,0.2)', display: 'flex', flexDirection: 'column', gap: 15, width: '300px' }}>
+          <h2 style={{ textAlign: 'center', fontWeight: 900 }}>Admin Access</h2>
           <input 
             type="password" 
-            placeholder="supersecretringo"
+            placeholder="Admin Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ padding: 10, borderRadius: 5, border: 'none' }}
+            style={{ padding: 12, borderRadius: 8, border: '1px solid #333', background: '#000', color: '#fff' }}
           />
-          <button type="submit" style={{ padding: 10, background: '#ff1744', color: 'white', border: 'none', borderRadius: 5, cursor: 'pointer' }}>Login</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <button type="submit" style={{ padding: 12, background: 'linear-gradient(135deg, #7c4dff, #c51162)', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700 }}>Authenticate</button>
+          {error && <p style={{ color: '#ff1744', textAlign: 'center', fontSize: '0.8rem' }}>{error}</p>}
         </form>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: 20, background: '#f5f5f5', color: '#333', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      <h1>Ringo Admin Panel</h1>
+    <div style={{ padding: '20px', background: '#050508', color: '#fff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+      <h1 style={{ fontWeight: 900, fontSize: '2rem', marginBottom: 20 }}>Ringo Command Center</h1>
       
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 20, background: 'white', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-        <thead>
-          <tr style={{ background: '#eee', textAlign: 'left' }}>
-            <th style={{ padding: 10, borderBottom: '2px solid #ddd' }}>ID</th>
-            <th style={{ padding: 10, borderBottom: '2px solid #ddd' }}>Name (Telegram)</th>
-            <th style={{ padding: 10, borderBottom: '2px solid #ddd' }}>Balance</th>
-            <th style={{ padding: 10, borderBottom: '2px solid #ddd' }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(u => (
-            <tr key={u.id}>
-              <td style={{ padding: 10, borderBottom: '1px solid #ddd' }}>{u.id.substring(0,8)}...</td>
-              <td style={{ padding: 10, borderBottom: '1px solid #ddd' }}>{u.name} ({u.telegramId})</td>
-              <td style={{ padding: 10, borderBottom: '1px solid #ddd' }}>{Math.floor(u.balance).toLocaleString()}</td>
-              <td style={{ padding: 10, borderBottom: '1px solid #ddd' }}>
-                 <button 
-                  onClick={() => {
-                    const newBal = prompt('Enter new balance for ' + u.name, u.balance.toString());
-                    if (newBal !== null) handleEditBalance(u.id, newBal);
-                  }}
-                  style={{ padding: '5px 10px', cursor: 'pointer' }}
-                 >
-                   Edit Balance
-                 </button>
-              </td>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', background: '#0F0F13', borderRadius: 12, overflow: 'hidden' }}>
+          <thead>
+            <tr style={{ background: '#1A1A20', textAlign: 'left' }}>
+              <th style={{ padding: 15, color: '#aaa' }}>User</th>
+              <th style={{ padding: 15, color: '#aaa' }}>Status</th>
+              <th style={{ padding: 15, color: '#aaa' }}>Balance</th>
+              <th style={{ padding: 15, color: '#aaa' }}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map(u => (
+              <tr key={u.id} style={{ borderBottom: '1px solid #1A1A20' }}>
+                <td style={{ padding: 15 }}>
+                  <div style={{ fontWeight: 700 }}>{u.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: '#666' }}>@{u.username || 'no_user'}</div>
+                </td>
+                <td style={{ padding: 15 }}>Lvl {u.level || 1}</td>
+                <td style={{ padding: 15, fontWeight: 900, color: '#FFD700' }}>{Math.floor(u.balance).toLocaleString()}</td>
+                <td style={{ padding: 15 }}>
+                  <div style={{ display: 'flex', gap: 5 }}>
+                    <button onClick={() => handleAdjustBalance(u.id, 10000)} style={{ background: '#00e676', border: 'none', padding: '5px 10px', borderRadius: 4, color: '#000', fontWeight: 700, cursor: 'pointer' }}>+10k</button>
+                    <button onClick={() => handleAdjustBalance(u.id, 100000)} style={{ background: '#00e676', border: 'none', padding: '5px 10px', borderRadius: 4, color: '#000', fontWeight: 700, cursor: 'pointer' }}>+100k</button>
+                    <button onClick={() => handleAdjustBalance(u.id, -50000)} style={{ background: '#ff1744', border: 'none', padding: '5px 10px', borderRadius: 4, color: '#fff', fontWeight: 700, cursor: 'pointer' }}>-50k</button>
+                    <button 
+                      onClick={() => {
+                        const newBal = prompt('Exact balance for ' + u.name, u.balance.toString());
+                        if (newBal !== null) handleEditBalance(u.id, newBal);
+                      }}
+                      style={{ background: '#333', border: 'none', padding: '5px 10px', borderRadius: 4, color: '#fff', cursor: 'pointer' }}
+                    >
+                      ✏️
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
