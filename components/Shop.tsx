@@ -96,11 +96,10 @@ export default function Shop({ onClose, balance }: { onClose: () => void; balanc
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h2>Shop</h2>
-          <button className={styles.closeBtn} onClick={onClose}>&times;</button>
+          <h2>MARKETPLACE</h2>
         </div>
 
-        <div className={styles.balance}>Your Coins: {Math.floor(balance)}</div>
+        <div className={styles.balance}>FUNDS: {Math.floor(balance).toLocaleString()} RNG</div>
 
         <div className={styles.tabsContainer}>
           {TABS.map(tab => (

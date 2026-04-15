@@ -107,11 +107,11 @@ export default function DonutClicker({
         style={{ cursor: "pointer", transition: "transform 0.1s" }}
       >
         <img
-          src="/donut.png"
-          alt="Donut"
+          src="/premium_ringo.png"
+          alt="Premium Ringo"
           className={styles.donutImage}
           draggable="false"
-          style={{ width: "256px", height: "auto", filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.5))" }}
+          style={{ width: "300px", height: "auto", filter: "drop-shadow(0 0 40px rgba(212, 175, 55, 0.4))", borderRadius: "50%" }}
         />
       </div>
 

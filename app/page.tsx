@@ -49,20 +49,19 @@ export default function Home() {
   }, [balance, stamina]);
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <h1 className="title" style={{ marginTop: '20px' }}>Ringo</h1>
+    <main style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center' }}>
       
-      <div className="glass-panel" style={{ margin: '10px 20px', padding: '15px', textAlign: 'center' }}>
-        <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--accent-gold)' }}>
-          {Math.floor(balance).toLocaleString()}
+      <div style={{ margin: '10px 20px', padding: '15px', textAlign: 'center' }}>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '8px' }}>
+          Portfolio Value
         </div>
-        <div style={{ fontSize: '0.9rem', color: '#ccc', textTransform: 'uppercase', letterSpacing: '2px' }}>
-          Total Balance
+        <div style={{ fontSize: '3.5rem', fontWeight: '300', color: '#fff', letterSpacing: '2px' }}>
+          {Math.floor(balance).toLocaleString()} <span style={{fontSize: '1.5rem', color: 'var(--accent-gold)'}}>RNG</span>
         </div>
       </div>
 
       {currentTab === 'tap' && (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
           <DonutClicker 
             balance={balance} 
             setBalance={setBalance}
@@ -70,14 +69,14 @@ export default function Home() {
             setStamina={setStamina}
             maxStamina={maxStamina}
           />
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <button className="button" style={{ background: 'var(--accent-gold)', color: '#000', border: 'none' }} onClick={() => {
-              alert("Watched Ad! x5 boost activated for 30 seconds!");
+          <div style={{ marginTop: '40px' }}>
+            <button className="button" style={{ background: 'transparent', border: '1px solid var(--accent-gold)', color: 'var(--accent-gold)' }} onClick={() => {
+              alert("Accelerate boost verified. x5 multiplier valid for 30s.");
             }}>
-              ▶️ Watch Ad for x5 Boost
+              ACCELERATE HYPERDRIVE
             </button>
           </div>
-        </>
+        </div>
       )}
 
       {currentTab === 'shop' && (
