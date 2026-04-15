@@ -104,12 +104,14 @@ export default function DonutClicker({
       <div
         className={`${styles.donutWrapper} ${isJumping ? "animate-jump" : ""}`}
         onPointerDown={handleTap}
+        style={{ cursor: "pointer", transition: "transform 0.1s" }}
       >
         <img
-          src="https://cdn3d.iconscout.com/3d/premium/thumb/donut-4993683-4161744.png"
+          src="/donut.png"
           alt="Donut"
           className={styles.donutImage}
           draggable="false"
+          style={{ width: "256px", height: "auto", filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.5))" }}
         />
       </div>
 

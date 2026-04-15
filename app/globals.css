@@ -1,7 +1,7 @@
 :root {
   --bg-gradient: linear-gradient(180deg, #ff1744 0%, #ff4081 100%);
-  --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(0, 0, 0, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --text-primary: #ffffff;
   --accent-gold: #FFD700;
   --stamina-bar: linear-gradient(90deg, #00C853, #64DD17);
@@ -24,20 +24,24 @@ html, body {
   color: var(--text-primary);
 }
 
+main {
+  padding-bottom: 80px; /* Space for bottom navigation */
+}
+
 /* Glassmorphism utility */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .title {
   font-size: 2.5rem;
   font-weight: 800;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
   text-align: center;
   margin-top: 1rem;
 }
@@ -46,19 +50,20 @@ html, body {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   border-radius: 30px;
   font-weight: 700;
   font-family: inherit;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
 }
 
 .button:active {
   transform: scale(0.95);
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 /* Keyframe Animations */

@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react';
 import DonutClicker from '@/components/DonutClicker';
 import Shop from '@/components/Shop';
-
+import BottomNav from '@/components/BottomNav';
 export default function Home() {
   const [balance, setBalance] = useState(0);
   const [stamina, setStamina] = useState(100);
   const maxStamina = 100;
-  const [showShop, setShowShop] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [currentTab, setCurrentTab] = useState<'tap' | 'shop' | 'leaderboard'>('tap');
 
   useEffect(() => {
     // Mock user login and load data
@@ -51,50 +50,52 @@ export default function Home() {
 
   return (
     <main style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <h1 className="title">Ringo</h1>
+      <h1 className="title" style={{ marginTop: '20px' }}>Ringo</h1>
       
-      <div style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 'bold', color: 'var(--accent-gold)', margin: '10px 0' }}>
-        {Math.floor(balance).toLocaleString()}
+      <div className="glass-panel" style={{ margin: '10px 20px', padding: '15px', textAlign: 'center' }}>
+        <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--accent-gold)' }}>
+          {Math.floor(balance).toLocaleString()}
+        </div>
+        <div style={{ fontSize: '0.9rem', color: '#ccc', textTransform: 'uppercase', letterSpacing: '2px' }}>
+          Total Balance
+        </div>
       </div>
 
-      <DonutClicker 
-        balance={balance} 
-        setBalance={setBalance}
-        stamina={stamina}
-        setStamina={setStamina}
-        maxStamina={maxStamina}
-      />
+      {currentTab === 'tap' && (
+        <>
+          <DonutClicker 
+            balance={balance} 
+            setBalance={setBalance}
+            stamina={stamina}
+            setStamina={setStamina}
+            maxStamina={maxStamina}
+          />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <button className="button" style={{ background: 'var(--accent-gold)', color: '#000', border: 'none' }} onClick={() => {
+              alert("Watched Ad! x5 boost activated for 30 seconds!");
+            }}>
+              ▶️ Watch Ad for x5 Boost
+            </button>
+          </div>
+        </>
+      )}
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '20px' }}>
-        <button className="button" style={{ background: '#ffd700', color: '#333' }} onClick={() => {
-          alert("Watched Ad! x5 boost activated for 30 seconds!");
-        }}>
-          ▶️ Watch Ad for x5 Boost
-        </button>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '10px 20px' }}>
-        <button className="button" onClick={() => setShowShop(true)}>
-          🏪 Shop
-        </button>
-        <button className="button" onClick={() => setShowLeaderboard(true)}>
-          🏆 Top
-        </button>
-      </div>
-
-      {showShop && <Shop onClose={() => setShowShop(false)} balance={balance} />}
+      {currentTab === 'shop' && (
+        <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
+          <Shop onClose={() => setCurrentTab('tap')} balance={balance} />
+        </div>
+      )}
       
-      {showLeaderboard && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'var(--bg-gradient)', zIndex: 200, padding: 20, overflowY: 'auto' }}>
-           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-             <h2 style={{ fontSize: '2rem'}}>Leaderboard</h2>
-             <button className="button" onClick={() => setShowLeaderboard(false)}>Back</button>
-           </div>
+      {currentTab === 'leaderboard' && (
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
            <div className="glass-panel" style={{ padding: 20 }}>
-              <p>Top players are coming soon...</p>
+              <h2 style={{ fontSize: '1.8rem', marginBottom: '15px', color: 'var(--accent-gold)' }}>Top Players</h2>
+              <p style={{ color: '#ccc' }}>Leaderboard is syncing...</p>
            </div>
         </div>
       )}
+
+      <BottomNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
     </main>
   );
 }
