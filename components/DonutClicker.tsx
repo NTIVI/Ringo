@@ -19,9 +19,9 @@ export default function DonutClicker({
   multiplier = 1,
 }: {
   balance: number;
-  setBalance: (v: number) => void;
+  setBalance: React.Dispatch<React.SetStateAction<number>>;
   stamina: number;
-  setStamina: (v: number) => void;
+  setStamina: React.Dispatch<React.SetStateAction<number>>;
   maxStamina: number;
   multiplier?: number;
 }) {
