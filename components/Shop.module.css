@@ -1,9 +1,6 @@
-.shopContainer {
-  padding-bottom: 30px;
-}
-
-.header {
-  margin-bottom: 30px;
+.shopOverlay {
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .mainTitle {
@@ -17,110 +14,194 @@
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-top: 5px;
+  margin-bottom: 30px;
 }
 
-.section {
-  margin-bottom: 40px;
+.hubGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.sectionTitle {
+.hubCard {
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.hubCard:active {
+  transform: scale(0.97);
+}
+
+.hubIcon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hubCard h3 {
   font-size: 1.2rem;
   font-weight: 800;
   color: #fff;
-  margin-bottom: 15px;
+}
+
+.hubCard p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.neonPink {
+  border: 1px solid var(--accent-neon);
+  box-shadow: 0 0 20px rgba(255, 23, 68, 0.15);
+}
+
+/* Store Pages */
+.storeHeader {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.backBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.storeHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 15px;
 }
 
 .horizontalScroll {
   display: flex;
   overflow-x: auto;
   gap: 15px;
-  padding: 10px 5px 20px 5px; /* space for box-shadows */
-  mask-image: linear-gradient(to right, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  padding-bottom: 10px;
 }
 
 .horizontalScroll::-webkit-scrollbar {
-  display: none; /* sleek invisible scrollbar on mobile */
+  display: none;
 }
 
 .itemCard {
   background: var(--glass-bg);
-  padding: 20px;
-  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 15px;
+  min-width: 140px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05); /* very subtle default border */
-  min-width: 160px;
   flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .activeCard {
   border: 1px solid var(--accent-neon);
-  box-shadow: 0 0 20px rgba(255, 23, 68, 0.2), inset 0 0 20px rgba(255, 23, 68, 0.05);
-  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 23, 68, 0.2);
 }
 
-.imagePlaceholder {
-  height: 120px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 12px;
-  margin-bottom: 15px;
+.itemImage {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.priceTag {
+  color: var(--accent-gold);
+  font-weight: 800;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.buyButton {
+  background: var(--btn-gradient);
+  border: none;
+  color: #fff;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.buyButton:disabled {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Grid List for Prizes/Coupons */
+.gridList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.itemCardFull {
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.neonBorder {
+  border-color: var(--accent-neon);
+}
+
+.itemImageWide {
+  width: 80px;
+  height: 80px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  font-size: 2.5rem;
 }
 
-.itemCard h4 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
+.itemInfo {
+  flex: 1;
+}
+
+.itemInfo h5 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.itemInfo p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
-.price {
-  color: var(--accent-gold);
-  font-weight: 800;
-  font-size: 1.1rem;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-
-.buyBtn {
+.buyButtonWide {
   background: var(--btn-gradient);
   border: none;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-family: inherit;
-  font-size: 0.9rem;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: auto;
-}
-
-.buyBtn svg {
-  width: 16px;
-  height: 16px;
-}
-
-.buyBtn:active {
-  transform: scale(0.95);
-}
-
-.buyBtn:disabled {
-  background: rgba(255,255,255,0.1);
-  color: var(--text-secondary);
 }

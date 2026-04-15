@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import DonutClicker from '@/components/DonutClicker';
 import Shop from '@/components/Shop';
 import BottomNav from '@/components/BottomNav';
+import Boosts from '@/components/Boosts';
+
 export default function Home() {
   const [balance, setBalance] = useState(0);
   const [stamina, setStamina] = useState(100);
   const maxStamina = 100;
-  const [currentTab, setCurrentTab] = useState<'tap' | 'shop' | 'leaderboard' | 'profile'>('tap');
+  const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile'>('tap');
 
   useEffect(() => {
     // Mock user login and load data
@@ -63,7 +65,7 @@ export default function Home() {
       )}
 
       {currentTab === 'tap' && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'center', paddingBottom: 40 }}>
           <DonutClicker 
             balance={balance} 
             setBalance={setBalance}
@@ -71,6 +73,12 @@ export default function Home() {
             setStamina={setStamina}
             maxStamina={maxStamina}
           />
+        </div>
+      )}
+
+      {currentTab === 'boosts' && (
+        <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
+          <Boosts balance={balance} setBalance={setBalance} />
         </div>
       )}
 
