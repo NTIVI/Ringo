@@ -6,6 +6,14 @@ import styles from './Boosts.module.css';
 export default function Boosts({ balance, setBalance }: { balance: number; setBalance: (v: any) => void }) {
   const [isAdLoading, setIsAdLoading] = useState(false);
 
+  const handleBoost = (multiplier: number) => {
+    setIsAdLoading(true);
+    setTimeout(() => {
+      setIsAdLoading(false);
+      alert(`🚀 Акселератор x${multiplier} активирован на 30 секунд!`);
+    }, 2000);
+  };
+
   const handleDailyBonus = async () => {
     try {
       // Get telegramId from global window if possible, for now using test
