@@ -11,6 +11,7 @@ export default function Home() {
   const [stamina, setStamina] = useState(100);
   const maxStamina = 100;
   const [userData, setUserData] = useState<any>(null);
+  const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile'>('tap');
 
   useEffect(() => {
     // Mock user login and load data from Telegram WebApp
