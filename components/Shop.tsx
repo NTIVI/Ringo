@@ -3,118 +3,189 @@
 import { useState } from 'react';
 import styles from './Shop.module.css';
 
-const TABS = ['Donuts', 'Upgrades', 'Boosts', 'Real Prizes', 'Coupons'];
+type ShopCategory = 'Hub' | 'Food' | 'Upgrades' | 'Prizes' | 'Coupons' | 'Bonuses';
 
 export default function Shop({ onClose, balance }: { onClose: () => void; balance: number }) {
-  const [activeTab, setActiveTab] = useState('Donuts');
+  const [activeCategory, setActiveCategory] = useState<ShopCategory>('Hub');
   const [isAdLoading, setIsAdLoading] = useState(false);
 
   const handleBoost = (multiplier: number) => {
     setIsAdLoading(true);
     setTimeout(() => {
       setIsAdLoading(false);
-      alert(`Watched Ad! You got x${multiplier} boost for 30 seconds!`);
-      // TODO: implement boost logic in parent/context
+      alert(`🎉 Реклама просмотрена! Множитель x${multiplier} активирован на 30 секунд!`);
     }, 3000);
   };
 
-  const renderContent = () => {
-    if (activeTab === 'Donuts') {
-      return (
-        <div className={styles.grid}>
-          <div className={styles.itemCard}>
-            <h3>Glazed Donut</h3>
-            <p>Multiplier x1</p>
-            <button className="button" disabled>Equipped</button>
-          </div>
-          <div className={styles.itemCard}>
-            <h3>Chocolate Donut</h3>
-            <p>Multiplier x2</p>
-            <button className="button">Buy - 5,000</button>
-          </div>
+  const renderHub = () => (
+    <div className={styles.hubGrid}>
+      <button className={`${styles.hubButton} ${styles.bgFood}`} onClick={() => setActiveCategory('Food')}>
+        🍩 <br/> Пончики & Еда
+      </button>
+      <button className={`${styles.hubButton} ${styles.bgUpgrades}`} onClick={() => setActiveCategory('Upgrades')}>
+        ⚡ <br/> Прокачка
+      </button>
+      <button className={`${styles.hubButton} ${styles.bgPrizes}`} onClick={() => setActiveCategory('Prizes')}>
+        🎁 <br/> Реальные Призы
+      </button>
+      <button className={`${styles.hubButton} ${styles.bgCoupons}`} onClick={() => setActiveCategory('Coupons')}>
+        🍔 <br/> Купоны на еду
+      </button>
+      <button className={`${styles.hubButton} ${styles.bgBonuses}`} onClick={() => setActiveCategory('Bonuses')}>
+        🚀 <br/> Супер Бонусы
+      </button>
+    </div>
+  );
+
+  const renderFood = () => (
+    <div>
+      <h3 style={{marginBottom: 10,  textAlign: 'left', fontWeight: 900}}>Пончики</h3>
+      <div className={styles.horizontalScroll}>
+        <div className={styles.itemCardSmall}>
+          <div style={{fontSize: '3rem'}}>🍩</div>
+          <h4>Классический</h4>
+          <p>x1 за клик</p>
+          <button className="button" style={{fontSize:'0.8rem', padding: '8px', minWidth: '100px'}} disabled>Куплено</button>
         </div>
-      );
-    }
-    if (activeTab === 'Boosts') {
-      return (
-        <div className={styles.grid}>
-          {isAdLoading ? (
-            <div className={styles.loader}>Watching Ad...</div>
-          ) : (
-            <>
-              <div className={styles.itemCard}>
-                <h3>x2 Boost</h3>
-                <p>Duration: 30s</p>
-                <button className="button" onClick={() => handleBoost(2)}>Watch Ad</button>
-              </div>
-              <div className={styles.itemCard}>
-                <h3>x3 Boost</h3>
-                <p>Duration: 30s</p>
-                <button className="button" onClick={() => handleBoost(3)}>Watch Ad</button>
-              </div>
-              <div className={styles.itemCard}>
-                <h3>x5 Boost</h3>
-                <p>Duration: 30s</p>
-                <button className="button" onClick={() => handleBoost(5)}>Watch Ad</button>
-              </div>
-            </>
-          )}
+        <div className={styles.itemCardSmall}>
+          <div style={{fontSize: '3rem'}}>🍫</div>
+          <h4>Шоколадный</h4>
+          <p>x2 за клик</p>
+          <button className="button" style={{fontSize:'0.8rem', padding: '8px', minWidth: '100px'}}>5,000</button>
         </div>
-      );
-    }
-    if (activeTab === 'Real Prizes') {
-      return (
-         <div className={styles.grid}>
+        <div className={styles.itemCardSmall}>
+          <div style={{fontSize: '3rem'}}>🍓</div>
+          <h4>Клубничный</h4>
+          <p>x5 за клик</p>
+          <button className="button" style={{fontSize:'0.8rem', padding: '8px', minWidth: '100px'}}>50,000</button>
+        </div>
+      </div>
+
+      <h3 style={{marginBottom: 10, marginTop: 20, textAlign: 'left', fontWeight: 900}}>Сытные перекусы</h3>
+      <div className={styles.horizontalScroll}>
+        <div className={styles.itemCardSmall}>
+          <div style={{fontSize: '3rem'}}>🥟</div>
+          <h4>Чебурек</h4>
+          <p>+50% Выносливость</p>
+          <button className="button" style={{fontSize:'0.8rem', padding: '8px', minWidth: '100px'}}>10,000</button>
+        </div>
+        <div className={styles.itemCardSmall}>
+          <div style={{fontSize: '3rem'}}>🌭</div>
+          <h4>Хот-дог</h4>
+          <p>+100% Выносливость</p>
+          <button className="button" style={{fontSize:'0.8rem', padding: '8px', minWidth: '100px'}}>25,000</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderUpgrades = () => (
+    <div className={styles.grid}>
+      <div className={styles.itemCard}>
+        <h3>💪 Сила клика</h3>
+        <p>Увеличивает базовый доход</p>
+        <button className="button">1,000</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>🔋 Макс. Выносливость</h3>
+        <p>Делает полоску энергии больше</p>
+        <button className="button">2,500</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>⚡ Регенерация</h3>
+        <p>Энергия восстанавливается быстрее</p>
+        <button className="button">5,000</button>
+      </div>
+    </div>
+  );
+
+  const renderPrizes = () => (
+    <div className={styles.grid}>
+      <div className={styles.itemCard}>
+        <h3>📱 iPhone 15 Pro</h3>
+        <p>Забрать в реальном мире!</p>
+        <button className="button" style={{background: '#ff1744'}}>100,000,000</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>🎮 PlayStation 5</h3>
+        <p>Забрать в реальном мире!</p>
+        <button className="button" style={{background: '#ff1744'}}>80,000,000</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>🎧 AirPods Pro</h3>
+        <p>Забрать в реальном мире!</p>
+        <button className="button" style={{background: '#ff1744'}}>30,000,000</button>
+      </div>
+    </div>
+  );
+
+  const renderCoupons = () => (
+    <div className={styles.grid}>
+      <div className={styles.itemCard}>
+        <h3>🎟 Скидка 15%</h3>
+        <p>В любом заведении сети в Армении</p>
+        <button className="button">150,000</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>🎟 Скидка 25%</h3>
+        <p>В любом заведении сети в Армении</p>
+        <button className="button">300,000</button>
+      </div>
+      <div className={styles.itemCard}>
+        <h3>🍔 Бесплатный Сет</h3>
+        <p>Обменяй на кассе</p>
+        <button className="button" style={{background: '#00e676'}}>2,000,000</button>
+      </div>
+    </div>
+  );
+
+  const renderBonuses = () => (
+    <div className={styles.grid}>
+      {isAdLoading ? (
+        <div className={styles.loader}>Загрузка рекламы... 📺</div>
+      ) : (
+        <>
           <div className={styles.itemCard}>
-            <h3>iPhone 15</h3>
-            <p>Real Life Prize</p>
-            <button className="button">Buy - 50,000,000</button>
+            <h3>🔥 Буст x2 (30 сек)</h3>
+            <p>Удвоение монет на 30 секунд</p>
+            <button className="button" onClick={() => handleBoost(2)}>Посмотреть Рекламу</button>
           </div>
           <div className={styles.itemCard}>
-            <h3>PlayStation 5</h3>
-            <p>Real Life Prize</p>
-            <button className="button">Buy - 40,000,000</button>
+            <h3>🚀 Буст x5 (30 сек)</h3>
+            <p>Пятикратные монеты на 30 секунд</p>
+            <button className="button" onClick={() => handleBoost(5)}>Посмотреть Рекламу</button>
           </div>
-        </div>
-      )
-    }
-    if (activeTab === 'Coupons') {
-      return (
-        <div className={styles.grid}>
-          <div className={styles.itemCard}>
-            <h3>Free Burger Coupon</h3>
-            <p>Armenia network only</p>
-            <button className="button">Buy - 500,000</button>
-          </div>
-        </div>
-      )
-    }
-    return <div className={styles.empty}>Coming Soon</div>;
-  };
+        </>
+      )}
+    </div>
+  );
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h2>MARKETPLACE</h2>
+          {activeCategory !== 'Hub' && (
+            <button className={styles.backBtn} onClick={() => setActiveCategory('Hub')}>
+              ⬅ Назад
+            </button>
+          )}
+          <h2 style={{flex: 1, textAlign: 'center'}}>
+            {activeCategory === 'Hub' ? 'Магазин' : 
+             activeCategory === 'Food' ? 'Еда & Пончики' :
+             activeCategory === 'Upgrades' ? 'Прокачка' : 
+             activeCategory === 'Prizes' ? 'Призы' : 
+             activeCategory === 'Coupons' ? 'Купоны' : 'Бонусы'}
+          </h2>
+          {activeCategory !== 'Hub' && <div style={{width: 60}}></div> /* placeholder to center text */}
         </div>
-
-        <div className={styles.balance}>FUNDS: {Math.floor(balance).toLocaleString()} RNG</div>
-
-        <div className={styles.tabsContainer}>
-          {TABS.map(tab => (
-            <div 
-              key={tab} 
-              className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </div>
-          ))}
-        </div>
-
+        
         <div className={styles.content}>
-          {renderContent()}
+          {activeCategory === 'Hub' && renderHub()}
+          {activeCategory === 'Food' && renderFood()}
+          {activeCategory === 'Upgrades' && renderUpgrades()}
+          {activeCategory === 'Prizes' && renderPrizes()}
+          {activeCategory === 'Coupons' && renderCoupons()}
+          {activeCategory === 'Bonuses' && renderBonuses()}
         </div>
       </div>
     </div>

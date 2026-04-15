@@ -6,69 +6,64 @@
 .modal {
   background: transparent;
   color: var(--text-primary);
+  padding: 10px;
 }
 
 .header {
   display: flex;
-  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
 
 .header h2 {
-  font-size: 1.8rem;
-  letter-spacing: 4px;
-  font-weight: 300;
-  text-transform: uppercase;
-  color: var(--accent-gold);
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.closeBtn {
-  display: none;
-}
-
-.balance {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-
-.tabsContainer {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 10px;
-  margin-bottom: 30px;
-  padding-bottom: 5px;
-}
-
-.tab {
-  padding: 8px 16px;
-  border-radius: 20px;
+.backBtn {
   background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
   cursor: pointer;
-  white-space: nowrap;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.2s ease;
-  color: var(--text-secondary);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.tab.activeTab {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-  box-shadow: 0 0 10px var(--accent-gold-glow);
+.hubGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
-.content {
-  margin-bottom: 20px;
+.hubButton {
+  border: none;
+  border-radius: 20px;
+  padding: 20px 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
+
+.hubButton:active {
+  transform: scale(0.95);
+}
+
+.bgFood { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #333; text-shadow: none; }
+.bgUpgrades { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.bgPrizes { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.bgCoupons { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #000; text-shadow: none;}
+.bgBonuses { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: #333; text-shadow: none; grid-column: span 2; }
+
 
 .grid {
   display: grid;
@@ -76,54 +71,65 @@
   gap: 15px;
 }
 
+.horizontalScroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding-bottom: 15px;
+  mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+
+.horizontalScroll::-webkit-scrollbar {
+  height: 6px;
+}
+.horizontalScroll::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 10px;
+}
+
 .itemCard {
   background: var(--glass-bg);
   padding: 20px;
-  border-radius: 16px;
+  border-radius: 20px;
   text-align: center;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  transition: transform 0.2s;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-.itemCard:hover {
-  border-color: var(--accent-gold);
+.itemCardSmall {
+  background: var(--glass-bg);
+  padding: 15px;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  min-width: 140px;
+  flex: 0 0 auto;
 }
 
-.itemCard h3 {
+.itemCard h3, .itemCardSmall h4 {
   margin-bottom: 8px;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: #fff;
+  font-weight: 800;
 }
 
-.itemCard p {
-  color: var(--text-secondary);
+.itemCard p, .itemCardSmall p {
+  color: #fff;
+  opacity: 0.9;
   margin-bottom: 15px;
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .loader {
   text-align: center;
-  font-size: 1rem;
-  color: var(--accent-gold);
+  font-size: 1.2rem;
+  font-weight: 800;
   padding: 40px 0;
-  letter-spacing: 2px;
-  animation: pulse 1.5s infinite;
+  animation: pulse 1s infinite alternate;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-.empty {
-  text-align: center;
-  padding: 40px 0;
-  color: var(--text-secondary);
-  font-size: 1rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
 }

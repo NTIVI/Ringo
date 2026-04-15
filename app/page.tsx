@@ -51,12 +51,12 @@ export default function Home() {
   return (
     <main style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'center' }}>
       
-      <div style={{ margin: '10px 20px', padding: '15px', textAlign: 'center' }}>
-        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '8px' }}>
-          Portfolio Value
+      <div className="glass-panel" style={{ margin: '10px 20px', padding: '15px', textAlign: 'center' }}>
+        <div style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--accent-gold)', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+          {Math.floor(balance).toLocaleString()}
         </div>
-        <div style={{ fontSize: '3.5rem', fontWeight: '300', color: '#fff', letterSpacing: '2px' }}>
-          {Math.floor(balance).toLocaleString()} <span style={{fontSize: '1.5rem', color: 'var(--accent-gold)'}}>RNG</span>
+        <div style={{ fontSize: '1rem', color: '#fff', fontWeight: '700', marginTop: '5px' }}>
+          Монет собрано
         </div>
       </div>
 
@@ -69,13 +69,6 @@ export default function Home() {
             setStamina={setStamina}
             maxStamina={maxStamina}
           />
-          <div style={{ marginTop: '40px' }}>
-            <button className="button" style={{ background: 'transparent', border: '1px solid var(--accent-gold)', color: 'var(--accent-gold)' }} onClick={() => {
-              alert("Accelerate boost verified. x5 multiplier valid for 30s.");
-            }}>
-              ACCELERATE HYPERDRIVE
-            </button>
-          </div>
         </div>
       )}
 
