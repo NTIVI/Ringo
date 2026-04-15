@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Process Purchase
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       const updatedUser = await tx.user.update({
         where: { telegramId: String(telegramId) },
         data: {
