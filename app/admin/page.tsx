@@ -57,8 +57,8 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#0F0F13', color: 'white' }}>
-        <form onSubmit={handleLogin} style={{ padding: 30, background: '#1A1A20', borderRadius: 16, border: '1px solid rgba(255,105,180,0.2)', display: 'flex', flexDirection: 'column', gap: 15, width: '300px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#0F0005', color: 'white' }}>
+        <form onSubmit={handleLogin} style={{ padding: 30, background: '#1A0208', borderRadius: 16, border: '1px solid rgba(255, 23, 68, 0.3)', display: 'flex', flexDirection: 'column', gap: 15, width: '300px' }}>
           <h2 style={{ textAlign: 'center', fontWeight: 900 }}>Admin Access</h2>
           <input 
             type="password" 
@@ -67,7 +67,7 @@ export default function AdminPage() {
             onChange={(e) => setPassword(e.target.value)}
             style={{ padding: 12, borderRadius: 8, border: '1px solid #333', background: '#000', color: '#fff' }}
           />
-          <button type="submit" style={{ padding: 12, background: 'linear-gradient(135deg, #7c4dff, #c51162)', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700 }}>Authenticate</button>
+          <button type="submit" style={{ padding: 12, background: 'var(--btn-gradient)', color: 'white', border: 'none', borderRadius: 8, cursor: 'pointer', fontWeight: 700 }}>Authenticate</button>
           {error && <p style={{ color: '#ff1744', textAlign: 'center', fontSize: '0.8rem' }}>{error}</p>}
         </form>
       </div>
@@ -75,13 +75,13 @@ export default function AdminPage() {
   }
 
   return (
-    <div style={{ padding: '20px', background: '#050508', color: '#fff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ padding: '20px', background: '#0F0005', color: '#fff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
       <h1 style={{ fontWeight: 900, fontSize: '2rem', marginBottom: 20 }}>Ringo Command Center</h1>
       
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', background: '#0F0F13', borderRadius: 12, overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', background: '#1A0208', borderRadius: 12, overflow: 'hidden' }}>
           <thead>
-            <tr style={{ background: '#1A1A20', textAlign: 'left' }}>
+            <tr style={{ background: '#2A0413', textAlign: 'left' }}>
               <th style={{ padding: 15, color: '#aaa' }}>User</th>
               <th style={{ padding: 15, color: '#aaa' }}>Status</th>
               <th style={{ padding: 15, color: '#aaa' }}>Balance</th>
@@ -90,7 +90,7 @@ export default function AdminPage() {
           </thead>
           <tbody>
             {users.map(u => (
-              <tr key={u.id} style={{ borderBottom: '1px solid #1A1A20' }}>
+              <tr key={u.id} style={{ borderBottom: '1px solid #2A0413' }}>
                 <td style={{ padding: 15 }}>
                   <div style={{ fontWeight: 700 }}>{u.name}</div>
                   <div style={{ fontSize: '0.8rem', color: '#666' }}>@{u.username || 'no_user'}</div>

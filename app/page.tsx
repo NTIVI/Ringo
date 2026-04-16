@@ -14,20 +14,32 @@ export default function Home() {
   const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile'>('tap');
 
   useEffect(() => {
-    // Mock user login and load data from Telegram WebApp
+    const tg = (window as any).Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+
     const loadUser = async () => {
       try {
-        const tg = (window as any).Telegram?.WebApp;
         const tgUser = tg?.initDataUnsafe?.user;
         
+        // Define user details from Telegram or fallback for dev
+        const telegramId = tgUser?.id?.toString() || 'test_user_1';
+        const firstName = tgUser?.first_name || 'Player';
+        const lastName = tgUser?.last_name || '';
+        const name = `${firstName} ${lastName}`.trim();
+        const username = tgUser?.username || 'user';
+        const avatarUrl = tgUser?.photo_url || '';
+
         const res = await fetch('/api/user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
-            telegramId: tgUser?.id?.toString() || 'test_user_1', 
-            name: tgUser?.first_name || 'Player One',
-            username: tgUser?.username,
-            avatarUrl: tgUser?.photo_url
+            telegramId, 
+            name,
+            username,
+            avatarUrl
           })
         });
         const data = await res.json();
@@ -137,7 +149,8 @@ export default function Home() {
               </div>
               
               <h2 style={{ fontSize: '1.6rem', fontWeight: '900', color: '#fff', marginBottom: 2 }}>{userData?.name || 'Player One'}</h2>
-              <p style={{ color: 'var(--accent-neon)', fontSize: '0.9rem', marginBottom: 15, fontWeight: 600 }}>@{userData?.username || 'user'}</p>
+              <p style={{ color: 'var(--accent-neon)', fontSize: '0.9rem', marginBottom: 5, fontWeight: 600 }}>@{userData?.username || 'user'}</p>
+              <p style={{ color: '#666', fontSize: '0.75rem', marginBottom: 15 }}>ID: {userData?.telegramId || '—'}</p>
 
               {/* Level Progress Bar */}
               <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, marginBottom: 5, overflow: 'hidden' }}>

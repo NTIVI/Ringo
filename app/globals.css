@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
 
 :root {
-  /* Dark neon background with red/pink highlight */
-  --bg-gradient: radial-gradient(circle at top, #2A0413 0%, #0F0F13 70%, #050508 100%);
-  --glass-bg: rgba(20, 20, 25, 0.85); /* Dark Cards */
-  --glass-border: rgba(255, 64, 129, 0.2);
+  /* Dark pink and red theme */
+  --bg-gradient: radial-gradient(circle at top, #4A0E1C 0%, #2A0413 50%, #0F0005 100%);
+  --glass-bg: rgba(40, 5, 20, 0.75); /* Dark pinkish glass */
+  --glass-border: rgba(255, 23, 68, 0.3);
   --text-primary: #ffffff;
-  --text-secondary: #aaaaaa;
+  --text-secondary: #ffcdd2; /* Soft pink text */
   --accent-gold: #FFD700;
   --accent-neon: #ff1744; /* Vivid Red-Pink Neon */
   --accent-neon-glow: rgba(255, 23, 68, 0.5);
-  --btn-gradient: linear-gradient(135deg, #7c4dff 0%, #c51162 100%); /* similar to screenshot buttons */
-  --stamina-bar: linear-gradient(90deg, #ff1744, #ff4081);
+  --btn-gradient: linear-gradient(135deg, #c2185b 0%, #b71c1c 100%); /* Deep pink to dark red */
+  --stamina-bar: linear-gradient(90deg, #ff1744, #ad1457);
 }
 
 * {
