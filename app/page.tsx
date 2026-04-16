@@ -13,6 +13,9 @@ export default function Home() {
   const [userData, setUserData] = useState<any>(null);
   const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile'>('tap');
 
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
+
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
@@ -47,6 +50,8 @@ export default function Home() {
           setUserData(data);
           setBalance(data.balance);
           setStamina(Math.min(data.stamina, maxStamina));
+        } else {
+          console.error("User fetch failed", data);
         }
       } catch (err) {
         console.error("Failed to load user", err);
@@ -54,6 +59,25 @@ export default function Home() {
     };
     loadUser();
   }, []);
+
+  // Fetch Leaderboard when needed
+  useEffect(() => {
+    if (currentTab === 'leaderboard' && leaderboard.length === 0) {
+      const fetchLeaderboard = async () => {
+        setLoadingLeaderboard(true);
+        try {
+          const res = await fetch('/api/leaderboard');
+          const data = await res.json();
+          if (res.ok) setLeaderboard(data);
+        } catch (err) {
+          console.error("Leaderboard fetch error", err);
+        } finally {
+          setLoadingLeaderboard(false);
+        }
+      };
+      fetchLeaderboard();
+    }
+  }, [currentTab, leaderboard.length]);
 
   const reqOk = (res: Response, data: any) => res.ok && data && !data.error;
 
@@ -88,15 +112,17 @@ export default function Home() {
   };
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'flex-start', paddingTop: 20 }}>
+    <main style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'flex-start', paddingTop: 10 }}>
       
       {currentTab === 'tap' && (
-        <div style={{ margin: '10px 20px', textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', fontWeight: '800', color: '#fff', letterSpacing: '1px' }}>
-            {Math.floor(balance).toLocaleString()} <span style={{fontSize: '1.5rem', color: 'var(--accent-gold)'}}>RNG</span>
-          </div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '2px' }}>
-            Текущий Баланс
+        <div style={{ margin: '15px 20px', textAlign: 'center' }}>
+          <div className="glass-panel" style={{ padding: '15px', display: 'inline-block', minWidth: '220px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div className="gradient-text" style={{ fontSize: '3rem', fontWeight: '900', letterSpacing: '2px' }}>
+              {Math.floor(balance).toLocaleString()} 
+            </div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--accent-neon)', fontWeight: '800', marginTop: '-5px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+              RINGO COINS
+            </div>
           </div>
         </div>
       )}
@@ -127,51 +153,76 @@ export default function Home() {
       
       {currentTab === 'leaderboard' && (
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
-           <div className="glass-panel" style={{ padding: 20 }}>
-              <h2 className="title">Лидерборд</h2>
-              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginTop: 10 }}>Данные синхронизируются...</p>
+           <div className="glass-panel" style={{ padding: 20, minHeight: '80%' }}>
+              <h2 className="title" style={{ marginBottom: 20 }}>Топ Игроков</h2>
+              
+              {loadingLeaderboard ? (
+                <p style={{ color: 'var(--text-secondary)', textAlign: 'center' }}>Загрузка...</p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {leaderboard.map((user, index) => (
+                    <div key={user.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 15px', background: index < 3 ? 'rgba(255, 64, 129, 0.1)' : 'rgba(255,255,255,0.02)', borderRadius: 12, border: index < 3 ? '1px solid rgba(255, 64, 129, 0.2)' : '1px solid transparent' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ fontSize: '1.2rem', fontWeight: 900, color: index === 0 ? '#ffd700' : index === 1 ? '#c0c0c0' : index === 2 ? '#cd7f32' : '#666', width: 25 }}>
+                          {index + 1}
+                        </span>
+                        <div style={{ fontWeight: 700 }}>{user.name}</div>
+                      </div>
+                      <div style={{ fontWeight: 800, color: 'var(--accent-neon)' }}>
+                        {Math.floor(user.balance).toLocaleString()} <span style={{ fontSize: '0.7rem', color: '#ffcdd2' }}>RNG</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
            </div>
         </div>
       )}
 
       {currentTab === 'profile' && (
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
-           <div className="glass-panel" style={{ padding: '30px 20px', textAlign: 'center' }}>
-              <div style={{ width: 100, height: 100, borderRadius: '50px', background: 'var(--btn-gradient)', margin: '0 auto 15px', position: 'relative', overflow: 'hidden', border: '3px solid var(--accent-neon)' }}>
-                {userData?.avatarUrl ? (
-                  <img src={userData.avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <div style={{ fontSize: '3rem', lineHeight: '100px' }}>👤</div>
-                )}
-                <div style={{ position: 'absolute', bottom: 0, right: 0, background: 'var(--accent-neon)', color: '#fff', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '10px 0 0 0', fontWeight: 900 }}>
-                  Lvl {userData?.level || 1}
+           {!userData ? (
+             <div className="glass-panel" style={{ padding: 40, textAlign: 'center' }}>
+                <p style={{ color: 'var(--text-secondary)' }}>Загрузка профиля...</p>
+             </div>
+           ) : (
+             <div className="glass-panel" style={{ padding: '30px 20px', textAlign: 'center' }}>
+                <div style={{ width: 100, height: 100, borderRadius: '50px', background: 'var(--btn-gradient)', margin: '0 auto 15px', position: 'relative', overflow: 'hidden', border: '3px solid var(--accent-neon)', boxShadow: '0 0 20px var(--accent-neon-glow)' }}>
+                  {userData.avatarUrl ? (
+                    <img src={userData.avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ fontSize: '3rem', lineHeight: '100px' }}>👤</div>
+                  )}
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, background: 'var(--accent-neon)', color: '#fff', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '10px 0 0 0', fontWeight: 900 }}>
+                    Lvl {userData.level || 1}
+                  </div>
                 </div>
-              </div>
-              
-              <h2 style={{ fontSize: '1.6rem', fontWeight: '900', color: '#fff', marginBottom: 2 }}>{userData?.name || 'Player One'}</h2>
-              <p style={{ color: 'var(--accent-neon)', fontSize: '0.9rem', marginBottom: 5, fontWeight: 600 }}>@{userData?.username || 'user'}</p>
-              <p style={{ color: '#666', fontSize: '0.75rem', marginBottom: 15 }}>ID: {userData?.telegramId || '—'}</p>
-
-              {/* Level Progress Bar */}
-              <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, marginBottom: 5, overflow: 'hidden' }}>
-                <div style={{ width: `${(balance % 50000) / 500} %`, height: '100%', background: 'var(--accent-neon)', boxShadow: '0 0 10px var(--accent-neon-glow)' }}></div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#666', marginBottom: 25 }}>
-                <span>Exp: {Math.floor(balance % 50000).toLocaleString()}</span>
-                <span>Next: 50,000</span>
-              </div>
-
-              <div style={{ background: 'rgba(0,0,0,0.3)', padding: 15, borderRadius: 12, marginBottom: 20 }}>
-                <div style={{ fontSize: '0.8rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 5 }}>История имущества</div>
-                <div style={{ textAlign: 'left', maxHeight: 200, overflowY: 'auto' }}>
-                  {renderPurchases()}
+                
+                <h2 style={{ fontSize: '1.6rem', fontWeight: '900', color: '#fff', marginBottom: 2 }}>{userData.name}</h2>
+                <p style={{ color: 'var(--accent-neon)', fontSize: '0.9rem', marginBottom: 5, fontWeight: 600 }}>@{userData.username || 'user'}</p>
+                <p style={{ color: '#666', fontSize: '0.75rem', marginBottom: 15 }}>ID: {userData.telegramId}</p>
+  
+                {/* Level Progress Bar */}
+                <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, marginBottom: 5, overflow: 'hidden' }}>
+                  <div style={{ width: `${(balance % 50000) / 500}%`, height: '100%', background: 'var(--accent-neon)', boxShadow: '0 0 10px var(--accent-neon-glow)' }}></div>
                 </div>
-              </div>
-
-              <button className="button" style={{ width: '100%' }}>
-                Настройки
-              </button>
-           </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#666', marginBottom: 25 }}>
+                  <span>Exp: {Math.floor(balance % 50000).toLocaleString()}</span>
+                  <span>Next: 50,000</span>
+                </div>
+  
+                <div style={{ background: 'rgba(0,0,0,0.3)', padding: 15, borderRadius: 12, marginBottom: 20 }}>
+                  <div style={{ fontSize: '0.8rem', color: '#aaa', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 5 }}>История имущества</div>
+                  <div style={{ textAlign: 'left', maxHeight: 200, overflowY: 'auto' }}>
+                    {renderPurchases()}
+                  </div>
+                </div>
+  
+                <button className="button" style={{ width: '100%' }}>
+                  Настройки
+                </button>
+             </div>
+           )}
         </div>
       )}
 
