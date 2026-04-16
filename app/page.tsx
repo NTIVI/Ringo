@@ -5,6 +5,7 @@ import DonutClicker from '@/components/DonutClicker';
 import Shop from '@/components/Shop';
 import BottomNav from '@/components/BottomNav';
 import Boosts from '@/components/Boosts';
+import Games from '@/components/Games';
 
 export default function Home() {
   const [balance, setBalance] = useState(0);
@@ -12,7 +13,7 @@ export default function Home() {
   const [multiplier, setMultiplier] = useState(1);
   const maxStamina = 100;
   const [userData, setUserData] = useState<any>(null);
-  const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile'>('tap');
+  const [currentTab, setCurrentTab] = useState<'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile' | 'games'>('tap');
 
   // Map donut ID to multiplier
   const getMultiplier = (id: number) => {
@@ -201,12 +202,18 @@ export default function Home() {
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
+              flexDirection: 'column',
               gap: 8,
               alignItems: 'center'
             }}>
-              <span style={{ color: 'var(--accent-neon)' }}>✧</span> 
-              RNG Token Balance 
-              <span style={{ color: 'var(--accent-neon)' }}>✧</span>
+              <div>
+                <span style={{ color: 'var(--accent-neon)' }}>✧</span> 
+                RNG CASINO & PRIZES 
+                <span style={{ color: 'var(--accent-neon)' }}>✧</span>
+              </div>
+              <div style={{ fontSize: '0.7rem', letterSpacing: '1px', color: 'var(--accent-gold)' }}>
+                ИГРАЙ И ВЫИГРЫВАЙ IPHONE 15 PRO
+              </div>
             </div>
           </div>
         </div>
@@ -229,6 +236,10 @@ export default function Home() {
         <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
           <Boosts balance={balance} setBalance={setBalance} />
         </div>
+      )}
+
+      {currentTab === 'games' && (
+        <Games balance={balance} setBalance={setBalance} />
       )}
 
       {currentTab === 'shop' && (

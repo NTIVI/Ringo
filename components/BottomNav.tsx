@@ -3,8 +3,8 @@
 import styles from './BottomNav.module.css';
 
 interface BottomNavProps {
-  currentTab: 'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile';
-  setCurrentTab: (tab: 'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile') => void;
+  currentTab: 'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile' | 'games';
+  setCurrentTab: (tab: 'tap' | 'boosts' | 'shop' | 'leaderboard' | 'profile' | 'games') => void;
 }
 
 export default function BottomNav({ currentTab, setCurrentTab }: BottomNavProps) {
@@ -18,6 +18,16 @@ export default function BottomNav({ currentTab, setCurrentTab }: BottomNavProps)
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         </div>
         <span className={styles.label}>Старт</span>
+      </button>
+
+      <button 
+        className={`${styles.navItem} ${currentTab === 'games' ? styles.active : ''}`}
+        onClick={() => setCurrentTab('games')}
+      >
+        <div className={styles.iconContainer}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle></svg>
+        </div>
+        <span className={styles.label}>Игры</span>
       </button>
 
       <button 
