@@ -71,13 +71,39 @@
 }
 
 .backBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 8px 18px;
+  border-radius: 20px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.backBtn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent-neon);
+  box-shadow: 0 0 10px rgba(255, 23, 68, 0.2);
+}
+
+.closeBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
 }
 
 .storeHeader h3 {
@@ -126,11 +152,23 @@
   margin-bottom: 10px;
 }
 
+.multiplierBadge {
+  background: rgba(255, 23, 68, 0.1);
+  color: var(--accent-neon);
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 23, 68, 0.2);
+}
+
 .priceTag {
   color: var(--accent-gold);
   font-weight: 800;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
 }
 
 .buyButton {

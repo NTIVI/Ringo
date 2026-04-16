@@ -5,19 +5,38 @@ import styles from './Shop.module.css';
 
 type StoreType = 'hub' | 'food' | 'prizes' | 'coupons';
 
-export default function Shop({ onClose, balance }: { onClose: () => void; balance: number }) {
+export default function Shop({ onClose, balance, setBalance, setMultiplier, currentDonutId }: { 
+  onClose: () => void; 
+  balance: number;
+  setBalance: (b: number) => void;
+  setMultiplier: (m: number) => void;
+  currentDonutId: number;
+}) {
   const [activeStore, setActiveStore] = useState<StoreType>('hub');
+
+  const buyDonut = async (id: number, price: number, mult: number) => {
+    if (balance < price) return;
+    
+    // In a real app, this would be an API call
+    // For now, update local state
+    setBalance(balance - price);
+    setMultiplier(mult);
+    alert(`Пончик куплен! Теперь вы получаете x${mult} очков!`);
+  };
 
   const renderHub = () => (
     <div className={styles.hubContainer}>
-      <h2 className={styles.mainTitle}>Магазины</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <h2 className={styles.mainTitle}>Магазины</h2>
+        <button className={styles.closeBtn} onClick={onClose}>Закрыть</button>
+      </div>
       <p className={styles.subTitle}>Выберите категорию товаров</p>
       
       <div className={styles.hubGrid}>
         <div className={styles.hubCard} onClick={() => setActiveStore('food')}>
           <div className={styles.hubIcon}>🍩</div>
           <h3>Пончики & Еда</h3>
-          <p>Вкусные награды за клики</p>
+          <p>Увеличьте свой доход за клик</p>
         </div>
         
         <div className={`${styles.hubCard} ${styles.neonPink}`} onClick={() => setActiveStore('prizes')}>
@@ -38,30 +57,51 @@ export default function Shop({ onClose, balance }: { onClose: () => void; balanc
   const renderFoodStore = () => (
     <div className={styles.storePage}>
       <div className={styles.storeHeader}>
-        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>⬅ Назад</button>
+        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>Назад</button>
         <h3>Пончики & Еда</h3>
       </div>
 
       <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>🍩 Пончики</h4>
+        <h4 className={styles.sectionTitle}>🍩 Пончики (X-Мультипликатор)</h4>
         <div className={styles.horizontalScroll}>
-          <div className={`${styles.itemCard} ${styles.activeCard}`}>
+          <div className={`${styles.itemCard} ${currentDonutId === 1 ? styles.activeCard : ''}`}>
             <div className={styles.itemImage}>🍩</div>
             <h5>Классический</h5>
-            <div className={styles.priceTag}>Куплено</div>
-            <button className={styles.buyButton} disabled>Выбрано</button>
+            <div className={styles.multiplierBadge}>x1 Множитель</div>
+            <div className={styles.priceTag}>В комплекте</div>
+            <button className={styles.buyButton} disabled={currentDonutId === 1}>
+              {currentDonutId === 1 ? 'Выбрано' : 'Выбрать'}
+            </button>
           </div>
-          <div className={styles.itemCard}>
-            <div className={styles.itemImage}>🍫</div>
-            <h5>Шоколадный</h5>
-            <div className={styles.priceTag}>5,000 RNG</div>
-            <button className={styles.buyButton}>Купить</button>
+
+          <div className={`${styles.itemCard} ${currentDonutId === 2 ? styles.activeCard : ''}`}>
+            <div className={styles.itemImage}>✨</div>
+            <h5>Глазированный</h5>
+            <div className={styles.multiplierBadge}>x2 Множитель</div>
+            <div className={styles.priceTag}>10,000 RNG</div>
+            <button className={styles.buyButton} onClick={() => buyDonut(2, 10000, 2)}>
+              Купить
+            </button>
           </div>
-          <div className={styles.itemCard}>
-            <div className={styles.itemImage}>🍓</div>
-            <h5>Клубничный</h5>
-            <div className={styles.priceTag}>50,000 RNG</div>
-            <button className={styles.buyButton}>Купить</button>
+
+          <div className={`${styles.itemCard} ${currentDonutId === 3 ? styles.activeCard : ''}`}>
+            <div className={styles.itemImage}>🌌</div>
+            <h5>Космический</h5>
+            <div className={styles.multiplierBadge}>x5 Множитель</div>
+            <div className={styles.priceTag}>100,000 RNG</div>
+            <button className={styles.buyButton} onClick={() => buyDonut(3, 100000, 5)}>
+              Купить
+            </button>
+          </div>
+
+          <div className={`${styles.itemCard} ${currentDonutId === 4 ? styles.activeCard : ''}`}>
+            <div className={styles.itemImage}>👑</div>
+            <h5>Золотой</h5>
+            <div className={styles.multiplierBadge}>x10 Множитель</div>
+            <div className={styles.priceTag}>1,000,000 RNG</div>
+            <button className={styles.buyButton} onClick={() => buyDonut(4, 1000000, 10)}>
+              Купить
+            </button>
           </div>
         </div>
       </div>
@@ -89,7 +129,7 @@ export default function Shop({ onClose, balance }: { onClose: () => void; balanc
   const renderPrizeStore = () => (
     <div className={styles.storePage}>
       <div className={styles.storeHeader}>
-        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>⬅ Назад</button>
+        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>Назад</button>
         <h3>Реальные Призы</h3>
       </div>
       <div className={styles.gridList}>
@@ -118,7 +158,7 @@ export default function Shop({ onClose, balance }: { onClose: () => void; balanc
   const renderCouponStore = () => (
     <div className={styles.storePage}>
       <div className={styles.storeHeader}>
-        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>⬅ Назад</button>
+        <button className={styles.backBtn} onClick={() => setActiveStore('hub')}>Назад</button>
         <h3>Купоны на еду</h3>
       </div>
       <div className={styles.gridList}>
