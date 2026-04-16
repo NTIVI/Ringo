@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
         username: username,
         avatarUrl: avatarUrl,
       },
+      include: {
+        purchases: true
+      }
     });
 
     return NextResponse.json(user);

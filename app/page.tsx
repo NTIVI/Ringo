@@ -17,17 +17,28 @@ export default function Home() {
   const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
 
   useEffect(() => {
-    const tg = (window as any).Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    }
+    let retryCount = 0;
+    const maxRetries = 10;
 
-    const loadUser = async () => {
+    const initTelegam = () => {
+      const tg = (window as any).Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+        loadUser(tg);
+      } else if (retryCount < maxRetries) {
+        retryCount++;
+        setTimeout(initTelegam, 200);
+      } else {
+        // Safe fallback if TG fails after retries
+        loadUser(null);
+      }
+    };
+
+    const loadUser = async (tg: any) => {
       try {
         const tgUser = tg?.initDataUnsafe?.user;
         
-        // Define user details from Telegram or fallback for dev
         const telegramId = tgUser?.id?.toString() || 'test_user_1';
         const firstName = tgUser?.first_name || 'Player';
         const lastName = tgUser?.last_name || '';
@@ -35,29 +46,52 @@ export default function Home() {
         const username = tgUser?.username || 'user';
         const avatarUrl = tgUser?.photo_url || '';
 
+        console.log("Loading user:", telegramId);
+
         const res = await fetch('/api/user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            telegramId, 
-            name,
-            username,
-            avatarUrl
-          })
+          body: JSON.stringify({ telegramId, name, username, avatarUrl })
         });
+        
         const data = await res.json();
         if (reqOk(res, data)) {
+          console.log("User data loaded:", data);
           setUserData(data);
           setBalance(data.balance);
           setStamina(Math.min(data.stamina, maxStamina));
         } else {
-          console.error("User fetch failed", data);
+          console.error("User fetch failed:", data);
+          // Set minimal user data so app isn't stuck
+          setUserData({ 
+            telegramId, 
+            name, 
+            username: username || 'user', 
+            avatarUrl: avatarUrl || '',
+            balance: 0, 
+            stamina: 100, 
+            level: 1,
+            purchases: [] 
+          });
         }
       } catch (err) {
-        console.error("Failed to load user", err);
+        console.error("Failed to load user:", err);
+        // Fallback for network error
+        const tgUser = tg?.initDataUnsafe?.user;
+        setUserData({ 
+          telegramId: tgUser?.id?.toString() || 'test_user_1', 
+          name: tgUser?.first_name || 'Player', 
+          username: tgUser?.username || 'user',
+          avatarUrl: tgUser?.photo_url || '',
+          balance: 0, 
+          stamina: 100, 
+          level: 1,
+          purchases: []
+        });
       }
     };
-    loadUser();
+
+    initTelegam();
   }, []);
 
   // Fetch Leaderboard when needed
